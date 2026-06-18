@@ -65,10 +65,7 @@ export async function initAuth(): Promise<void> {
   })
 }
 
-export async function signIn(): Promise<string> {
-  if (!tokenClient) {
-    await initAuth()
-  }
+function requestToken(prompt: string): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     tokenClient.callback = (resp: any) => {
       if (resp.error) {
@@ -77,14 +74,25 @@ export async function signIn(): Promise<string> {
       }
       currentAccessToken = resp.access_token
       currentExpiresAt = Date.now() + (resp.expires_in ?? 3600) * 1000
+      localStorage.setItem('gis_authed', '1')
       resolve(resp.access_token)
     }
     try {
-      tokenClient.requestAccessToken({ prompt: 'consent' })
+      tokenClient.requestAccessToken({ prompt })
     } catch (e: any) {
       reject(e)
     }
   })
+}
+
+export async function silentSignIn(): Promise<string> {
+  if (!tokenClient) await initAuth()
+  return requestToken('none')
+}
+
+export async function signIn(): Promise<string> {
+  if (!tokenClient) await initAuth()
+  return requestToken('')
 }
 
 export function signOut(): void {

@@ -4,6 +4,7 @@ import {
   initAuth,
   signIn as authSignIn,
   signOut as authSignOut,
+  silentSignIn,
   isSignedIn,
 } from '@/lib/auth'
 import {
@@ -36,9 +37,20 @@ export default function App() {
       if (isSignedIn()) {
         await loadThoughts()
         setBootState('ready')
-      } else {
-        setBootState('signin')
+        return
       }
+      // 過去にログイン済みなら自動サインインを試みる
+      if (localStorage.getItem('gis_authed')) {
+        try {
+          await silentSignIn()
+          await loadThoughts()
+          setBootState('ready')
+          return
+        } catch {
+          // サイレント失敗 → サインイン画面へ
+        }
+      }
+      setBootState('signin')
     } catch (e: any) {
       setError(e.message ?? String(e))
       setBootState('signin')
@@ -71,6 +83,7 @@ export default function App() {
 
   async function handleSignOut() {
     authSignOut()
+    localStorage.removeItem('gis_authed')
     setBootState('signin')
     setThoughts([])
   }
