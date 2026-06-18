@@ -3,8 +3,7 @@
 
 const SCOPES = [
   'https://www.googleapis.com/auth/spreadsheets',
-  'https://www.googleapis.com/auth/generative.retriever', // Gemini（必要に応じて）
-  'https://www.googleapis.com/auth/cloud-platform', // Gemini（user token）
+  'https://www.googleapis.com/auth/cloud-platform',
 ].join(' ')
 
 declare global {
