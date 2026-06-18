@@ -69,6 +69,39 @@
   box-shadow: 0 4px 24px rgba(58, 53, 48, 0.12);
 }
 
+/* Clickable treasure chest map */
+.tmap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.tmap__img {
+  width: 100%;
+  border-radius: 16px;
+  display: block;
+  box-shadow: 0 4px 24px rgba(58, 53, 48, 0.12);
+  user-select: none;
+}
+
+.tmap__area {
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  padding: 0;
+}
+
+.tmap__area:hover {
+  background: rgba(255, 220, 100, 0.25);
+  outline: 2px solid rgba(255, 180, 0, 0.5);
+}
+
 .app__oneliner {
   text-align: center;
   font-family: 'Klee One', sans-serif;
