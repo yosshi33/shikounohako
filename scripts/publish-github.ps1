@@ -31,8 +31,8 @@ if ($status) {
   }
 }
 
-$remote = git remote get-url origin 2>$null
-if (-not $remote) {
+$remotes = git remote 2>$null
+if (-not ($remotes -match "origin")) {
   git remote add origin ("https://github.com/" + $Owner + "/" + $Repo + ".git")
   Write-Host "Added remote origin." -ForegroundColor Green
 }
