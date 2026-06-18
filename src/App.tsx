@@ -160,6 +160,15 @@ export default function App() {
           >
             AI {useAI ? 'ON' : 'OFF'}
           </button>
+          <a
+            className="btn btn--ask"
+            href={`https://docs.google.com/spreadsheets/d/${import.meta.env.VITE_GOOGLE_SHEETS_ID}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ padding: '6px 10px', fontSize: 12, textDecoration: 'none' }}
+          >
+            📊 シート
+          </a>
           <button
             className="btn btn--ask"
             onClick={handleSignOut}
