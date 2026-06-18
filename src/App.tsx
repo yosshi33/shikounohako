@@ -217,7 +217,11 @@ function SignInScreen({
   return (
     <div className="signin">
       <div className="signin__panel">
-        <div className="signin__emoji">🌿</div>
+        <img
+          src={`${import.meta.env.BASE_URL}takarabako.png`}
+          alt="5つの宝箱"
+          className="signin__hero"
+        />
         <h1 className="signin__title">思考の箱</h1>
         <p className="signin__desc">
           考えなくてよい思考が浮かんだ時に、

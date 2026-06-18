@@ -543,9 +543,14 @@
   box-shadow: var(--shadow);
 }
 
-.signin__emoji {
-  font-size: 48px;
-  margin-bottom: 8px;
+.signin__hero {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .signin__title {
