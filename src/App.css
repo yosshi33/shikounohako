@@ -55,12 +55,26 @@
   padding: 16px;
 }
 
+.app__hero {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.app__hero-img {
+  width: 100%;
+  max-width: 680px;
+  border-radius: 16px;
+  display: block;
+  margin: 0 auto 12px;
+  box-shadow: 0 4px 24px rgba(58, 53, 48, 0.12);
+}
+
 .app__oneliner {
   text-align: center;
   font-family: 'Klee One', sans-serif;
   color: var(--ink);
   font-size: 14px;
-  margin: 8px 0 20px;
+  margin: 0;
   letter-spacing: 0.04em;
 }
 
@@ -73,6 +87,40 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 14px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .app__container {
+    padding: 12px;
+  }
+
+  .app__hero-img {
+    border-radius: 10px;
+  }
+
+  .boxes {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .fab {
+    bottom: 16px;
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .app__header {
+    padding: 10px 12px;
+  }
+
+  .app__title {
+    font-size: 17px;
+  }
+
+  .sheet__panel {
+    padding: 16px;
+  }
 }
 
 .box {

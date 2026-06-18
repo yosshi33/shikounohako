@@ -158,9 +158,16 @@ export default function App() {
       </header>
 
       <div className="app__container">
-        <p className="app__oneliner">
-          「これは、<strong>どの箱？</strong>」浮かんだら、机から下ろして、箱へ。
-        </p>
+        <div className="app__hero">
+          <img
+            src={`${import.meta.env.BASE_URL}takarabako.png`}
+            alt="5つの宝箱"
+            className="app__hero-img"
+          />
+          <p className="app__oneliner">
+            「これは、<strong>どの箱？</strong>」浮かんだら、机から下ろして、箱へ。
+          </p>
+        </div>
 
         {error && <div className="sheet__error">{error}</div>}
 

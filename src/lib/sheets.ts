@@ -66,7 +66,7 @@ export async function ensureSheet(): Promise<void> {
   }
   // ヘッダー書き込み（A1:??1）。冪等に。
   const range = `${SHEET_NAME}!A1:${columnLetter(HEADER_ROW.length)}1`
-  await sheetsFetch(`/values/${range}`, {
+  await sheetsFetch(`/values/${range}?valueInputOption=USER_ENTERED`, {
     method: 'PUT',
     body: JSON.stringify({
       range,
@@ -179,15 +179,16 @@ export async function appendThought(input: NewThoughtInput): Promise<Thought> {
     thought.due_at ?? '',
     thought.reviewed_at ?? '',
   ]
-  await sheetsFetch(`/values/${SHEET_NAME}!A:A:append`, {
-    method: 'POST',
-    body: JSON.stringify({
-      range: `${SHEET_NAME}!A:A`,
-      valueInputOption: 'USER_ENTERED',
-      insertDataOption: 'INSERT_ROWS',
-      values: [row],
-    }),
-  })
+  await sheetsFetch(
+    `/values/${SHEET_NAME}!A:A:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        range: `${SHEET_NAME}!A:A`,
+        values: [row],
+      }),
+    },
+  )
   return thought
 }
 
@@ -247,7 +248,7 @@ export async function archiveThought(id: string): Promise<void> {
   const rowIndex = values.findIndex((r) => r[1] === id)
   if (rowIndex === -1) throw new Error('対象の思考が見つかりません')
   const sheetRow = rowIndex + 2
-  await sheetsFetch(`/values/${SHEET_NAME}!G${sheetRow}`, {
+  await sheetsFetch(`/values/${SHEET_NAME}!G${sheetRow}?valueInputOption=USER_ENTERED`, {
     method: 'PUT',
     body: JSON.stringify({
       range: `${SHEET_NAME}!G${sheetRow}`,
