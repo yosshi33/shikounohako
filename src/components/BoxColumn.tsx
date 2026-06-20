@@ -21,7 +21,7 @@ export function BoxColumn({
 }: Props) {
   const def = BOXES[boxKey]
   const count = thoughts.length
-  const isRecoverBox = boxKey === 'happy' || boxKey === 'gratitude'
+  const isRecoverBox = boxKey === 'happy'
 
   return (
     <section

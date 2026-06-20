@@ -2,7 +2,7 @@
 // スプレッドシートを「1行1思考」のデータストアとして扱う
 
 import { getAccessToken } from './auth'
-import { BOXES, SHEET_COLUMNS, Thought, NewThoughtInput, BoxKey } from '@/types'
+import { BOXES, LEGACY_BOX_MAP, SHEET_COLUMNS, Thought, NewThoughtInput, BoxKey } from '@/types'
 
 const SHEET_NAME = 'thoughts'
 const HEADER_ROW = SHEET_COLUMNS
@@ -120,11 +120,15 @@ function rowToThought(row: any[]): Thought | null {
     reviewed_at,
   ] = row
   if (!content) return null
+  const resolvedBox: BoxKey =
+    (box as BoxKey) in BOXES
+      ? (box as BoxKey)
+      : (LEGACY_BOX_MAP[box] ?? 'later')
   return {
     timestamp: timestamp || '',
     id: id || String(Date.now()),
     content,
-    box: (box as BoxKey) in BOXES ? (box as BoxKey) : 'release',
+    box: resolvedBox,
     source: source === 'ai' ? 'ai' : 'manual',
     ai_reason: ai_reason || undefined,
     status: status === 'archived' ? 'archived' : 'active',

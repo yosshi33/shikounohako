@@ -21,7 +21,7 @@ import './App.css'
 export default function App() {
   const [bootState, setBootState] = useState<'loading' | 'signin' | 'ready'>('loading')
   const [thoughts, setThoughts] = useState<Thought[]>([])
-  const [selectedBox, setSelectedBox] = useState<BoxKey>('today')
+  const [selectedBox, setSelectedBox] = useState<BoxKey>('later')
   const [sheetOpen, setSheetOpen] = useState(false)
   const [loadingList, setLoadingList] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -239,11 +239,8 @@ export default function App() {
 }
 
 const CHEST_AREAS: { key: BoxKey; label: string; style: React.CSSProperties }[] = [
-  { key: 'today',     label: '今日やる箱',     style: { left: '1%',  top: '38%', width: '18%', height: '52%' } },
-  { key: 'later',     label: 'あとで考える箱', style: { left: '20%', top: '32%', width: '18%', height: '58%' } },
-  { key: 'release',   label: '今は手放す箱',   style: { left: '39%', top: '32%', width: '20%', height: '58%' } },
-  { key: 'happy',     label: 'しあわせ箱',     style: { left: '59%', top: '27%', width: '18%', height: '63%' } },
-  { key: 'gratitude', label: '感謝の箱',       style: { left: '78%', top: '32%', width: '21%', height: '58%' } },
+  { key: 'later', label: 'あとで/手放す箱', style: { left: '1%',  top: '32%', width: '57%', height: '58%' } },
+  { key: 'happy', label: 'しあわせ/感謝の箱', style: { left: '59%', top: '27%', width: '40%', height: '63%' } },
 ]
 
 function TakarabakoMap({ onSelect }: { onSelect: (k: BoxKey) => void }) {
