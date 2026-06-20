@@ -65,9 +65,20 @@ export async function initAuth(): Promise<void> {
   })
 }
 
-function requestToken(prompt: string): Promise<string> {
+function requestToken(prompt: string, timeoutMs = 15_000): Promise<string> {
   return new Promise<string>((resolve, reject) => {
+    let settled = false
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true
+        reject(new Error('認証がタイムアウトしました'))
+      }
+    }, timeoutMs)
+
     tokenClient.callback = (resp: any) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
       if (resp.error) {
         reject(new Error(resp.error_description ?? resp.error))
         return
@@ -80,14 +91,26 @@ function requestToken(prompt: string): Promise<string> {
     try {
       tokenClient.requestAccessToken({ prompt })
     } catch (e: any) {
-      reject(e)
+      if (!settled) {
+        settled = true
+        clearTimeout(timer)
+        reject(e)
+      }
     }
   })
 }
 
+function isMobile(): boolean {
+  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
+}
+
 export async function silentSignIn(): Promise<string> {
   if (!tokenClient) await initAuth()
-  return requestToken('none')
+  // モバイルChromeはサードパーティCookie制限でprompt:'none'がフリーズするためスキップ
+  if (isMobile()) {
+    throw new Error('mobile: skip silent sign-in')
+  }
+  return requestToken('none', 8_000)
 }
 
 export async function signIn(): Promise<string> {
