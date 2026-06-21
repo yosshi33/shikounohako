@@ -70,7 +70,11 @@ export default function App() {
     }
   }, [])
 
+  const [signing, setSigning] = useState(false)
+
   async function handleSignIn() {
+    if (signing) return
+    setSigning(true)
     setError(null)
     try {
       await authSignIn()
@@ -78,6 +82,8 @@ export default function App() {
       setBootState('ready')
     } catch (e: any) {
       setError(e.message ?? String(e))
+    } finally {
+      setSigning(false)
     }
   }
 
@@ -139,7 +145,7 @@ export default function App() {
   }
 
   if (bootState === 'signin') {
-    return <SignInScreen onSignIn={handleSignIn} error={error} />
+    return <SignInScreen onSignIn={handleSignIn} error={error} signing={signing} />
   }
 
   const byBox = (k: BoxKey) => thoughts.filter((t) => t.box === k && t.status === 'active')
@@ -269,9 +275,11 @@ function TakarabakoMap({ onSelect }: { onSelect: (k: BoxKey) => void }) {
 function SignInScreen({
   onSignIn,
   error,
+  signing,
 }: {
   onSignIn: () => void
   error: string | null
+  signing: boolean
 }) {
   return (
     <div className="signin">
@@ -303,8 +311,8 @@ function SignInScreen({
             </span>
           ))}
         </div>
-        <button className="signin__btn" onClick={onSignIn}>
-          Google でサインイン
+        <button className="signin__btn" onClick={onSignIn} disabled={signing}>
+          {signing ? 'サインイン中…' : 'Google でサインイン'}
         </button>
         {error && <div className="signin__err">{error}</div>}
       </div>

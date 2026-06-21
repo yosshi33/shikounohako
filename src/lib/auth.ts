@@ -106,11 +106,9 @@ function isMobile(): boolean {
 
 export async function silentSignIn(): Promise<string> {
   if (!tokenClient) await initAuth()
-  // モバイルChromeはサードパーティCookie制限でprompt:'none'がフリーズするためスキップ
-  if (isMobile()) {
-    throw new Error('mobile: skip silent sign-in')
-  }
-  return requestToken('none', 8_000)
+  // モバイルはタイムアウトを短くして試みる（失敗したらサインイン画面へ）
+  const timeout = isMobile() ? 3_000 : 8_000
+  return requestToken('none', timeout)
 }
 
 export async function signIn(): Promise<string> {
